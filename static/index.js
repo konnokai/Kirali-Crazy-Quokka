@@ -484,12 +484,6 @@ const MODE_NORMAL = 1, MODE_ENDLESS = 2, MODE_PRACTICE = 3;
     document.write(createGameLayer());
 
     function initSetting() {
-        $("#username").val(cookie("username") ? cookie("username") : "");
-        $("#message").val(cookie("message") ? cookie("message") : "");
-        if (cookie("title")) {
-            $('title').text(cookie('title'));
-            $('#title').val(cookie('title'));
-        }
         let keyboard = cookie('keyboard');
         if (keyboard) {
             keyboard = keyboard.toString().toLowerCase();
@@ -500,9 +494,19 @@ const MODE_NORMAL = 1, MODE_ENDLESS = 2, MODE_PRACTICE = 3;
             map[keyboard.charAt(2)] = 3;
             map[keyboard.charAt(3)] = 4;
         }
+
         if (cookie('gameTime')) {
-            $('#gameTime').val(cookie('gameTime'));
             _gameSettingNum = parseInt(cookie('gameTime'));
+
+            if (isNaN(_gameSettingNum) || _gameSettingNum < 0) {
+                _gameSettingNum = 20;
+                $('#gameTime').val('');
+                cookie('gameTime', 20);
+                alert('秒數必須為數字，且不可低於 0，已自動修正遊戲時間為 20 秒')
+            }
+
+            $('#gameTime').val(cookie('gameTime'));
+
             gameRestart();
         }
     }
@@ -519,7 +523,7 @@ const MODE_NORMAL = 1, MODE_ENDLESS = 2, MODE_PRACTICE = 3;
     }
 
     w.save_cookie = function() {
-        const settings = ['username', 'message', 'keyboard', 'title', 'gameTime'];
+        const settings = ['keyboard', 'gameTime'];
         for (let s of settings) {
             let value=$(`#${s}`).val();
             if(value){
@@ -532,15 +536,6 @@ const MODE_NORMAL = 1, MODE_ENDLESS = 2, MODE_PRACTICE = 3;
     function isnull(val) {
         let str = val.replace(/(^\s*)|(\s*$)/g, '');
         return str === '' || str === undefined || str == null;
-    }
-
-    w.goRank = function() {
-        let name = $("#username").val();
-        let link = './rank.php';
-        if (!isnull(name)) {
-            link += "?name=" + name;
-        }
-        window.location.href = link;
     }
 
     function click(index) {
