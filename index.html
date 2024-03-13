@@ -2,17 +2,32 @@
 <html lang="zh">
 
 <head>
-    <title data-i18n="eat-kano"></title>
-    <meta itemprop="name" content="吃掉小鹿乃" />
-    <meta itemprop="description" content="新概念音游" />
+    <title>瘋狂矮袋鼠</title>
+    <meta itemprop="name" content="瘋狂矮袋鼠" />
+    <meta itemprop="description" content="一款讓豹變矮袋鼠的遊戲" />
     <meta charset="utf-8" />
     <meta name="viewport" content="initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0, width=device-width,target-densitydpi=device-dpi" />
+
+	<meta name="author" content="孤之界">
+	<meta name="description" content="瘋狂矮袋鼠">
+
+	<meta name="twitter:card" content="summary" />
+	<meta name="twitter:site" content="@Kon_no_kai" />
+	<meta name="twitter:creator" content="@Kon_no_kai" />
+	<meta property="og:type" content="website" />
+	<meta property="og:url" content="https://kirali-cq.konnokai.me" />
+	<meta property="og:title" content="瘋狂浣熊">
+	<meta property="og:description" content="一款讓豹變矮袋鼠的遊戲">
+	<meta property="og:image" content="https://kirali-cq.konnokai.me/static/image/ClickBefore.png">
+	<meta property="og:image:width" content="128">
+	<meta property="og:image:height" content="128">
+
     <link href="./static/index.css" rel="stylesheet" type="text/css">
-    <script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
-    <script src="https://passport.cnblogs.com/scripts/jsencrypt.min.js"></script>
-    <link href="https://cdn.staticfile.org/twitter-bootstrap/5.1.1/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.staticfile.org/twitter-bootstrap/5.1.1/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.staticfile.org/jquery/3.6.0/jquery.min.js"></script>
+    <link href="./static/bootstrap.min.css" rel="stylesheet">
+    
+    <script src="./static/js/createjs.min.js"></script>
+    <script src="./static/js/bootstrap.bundle.min.js"></script>
+    <script src="./static/js/jquery.min.js"></script>
 </head>
 
 <body onLoad="init()" oncontextmenu=self.event.returnValue=false>
@@ -33,7 +48,7 @@
         </div>
         <button type="button" class="btn btn-secondary btn-lg" id="replay" onclick="replayBtn()" data-i18n="again">AGAIN-I18N</button>
         <button type="button" class="btn btn-secondary btn-lg" onclick="window.location.reload()" data-i18n="home">HOME-I18N</button>
-        <button type="button" class="btn btn-secondary btn-lg" onclick="window.location.href='https://github.com/arcxingye/EatKano'" data-i18n="repo">REPO-I18N</button>
+        <button type="button" class="btn btn-secondary btn-lg" onclick="window.location.href='https://github.com/konnokai/Kirali-Crazy-Quokka'" data-i18n="repo">REPO-I18N</button>
     </div>
 </div>
 </div>
@@ -64,17 +79,7 @@
             </div>
             <div id="setting" class="container" style="display: none;">
                 <div class="container mb-3 btn-group">
-                    <a data-i18n="img-before" type="button" class="btn text-nowrap btn-secondary me-1" onclick="getClickBeforeImage()" style="left: 0">IMG-BEFORE-I18N</a>
-                    <input type="file" id="click-before-image" accept="image/*" class="d-none" onchange="saveClickBeforeImage()">
-                    <a data-i18n="img-after" type="button" class="btn text-nowrap btn-secondary me-1" onclick="getClickAfterImage()" style="right: 0">IMG-AFTER-I18N</a>
-                    <input type="file" id="click-after-image" accept="image/*" style="display: none;" onchange="saveClickAfterImage()">
                     <a id="sound" type="button" class="btn text-nowrap btn-secondary" onclick="changeSoundMode()"></a>
-                </div>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend col-2">
-                        <span class="input-group-text" data-i18n="title">TITLE-I18N</span>
-                    </div>
-                    <input data-placeholder-i18n="eat-kano" type="text" id="title" class="form-control" placeholder="EAT-KANO-I18N">
                 </div>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend col-2">

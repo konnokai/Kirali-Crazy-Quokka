@@ -2,23 +2,13 @@ const MODE_NORMAL = 1, MODE_ENDLESS = 2, MODE_PRACTICE = 3;
 
 (function(w) {
     function getJsonI18N() {
-        // https://developer.mozilla.org/zh-CN/docs/Web/API/Navigator/language
-        
-        const LANGUAGES = [
-            { regex: /^zh\b/, lang: 'zh' },
-            { regex: /^ja\b/, lang: 'ja' },
-            { regex: /.*/, lang: 'en'}
-        ]
-
-        const lang = LANGUAGES.find(l => l.regex.test(navigator.language)).lang
-        
         return $.ajax({
-            url: `./static/i18n/${lang}.json`,
+            url: `./static/i18n/zh.json`,
             dataType: 'json',
             method: 'GET',
             async: false,
             success: data => res = data,
-            error: () => alert('找不到语言文件: ' + lang)
+            error: () => alert('找不到語言文件: ' + lang)
         }).responseJSON
     }
 
@@ -86,12 +76,10 @@ const MODE_NORMAL = 1, MODE_ENDLESS = 2, MODE_PRACTICE = 3;
     }
 
     function getMode() {
-        //有cookie优先返回cookie记录的，没有再返回normal
         return cookie('gameMode') ? parseInt(cookie('gameMode')) : MODE_NORMAL;
     }
 
     function getSoundMode() {
-        // 默认为 on
         return cookie('soundMode') ? cookie('soundMode') : 'on';
     }
 
@@ -182,15 +170,15 @@ const MODE_NORMAL = 1, MODE_ENDLESS = 2, MODE_PRACTICE = 3;
 
     function gameInit() {
         createjs.Sound.registerSound({
-            src: "./static/music/err.mp3",
+            src: "./static/sound/Kirali_NaAAnNien_rrrrrrr.mp3",
             id: "err"
         });
         createjs.Sound.registerSound({
-            src: "./static/music/end.mp3",
+            src: "./static/sound/Kirali_Iamnotajaguar_Iamaquokka.mp3",
             id: "end"
         });
         createjs.Sound.registerSound({
-            src: "./static/music/tap.mp3",
+            src: "./static/sound/kirali_naaaaaaaaaaaaaaaa.mp3",
             id: "tap"
         });
         gameRestart();
@@ -253,7 +241,7 @@ const MODE_NORMAL = 1, MODE_ENDLESS = 2, MODE_PRACTICE = 3;
             GameTimeLayer.innerHTML = `SCORE:${_gameScore}`;
         }
     }
-    //使重试按钮获得焦点
+    
     function foucusOnReplay(){
         $('#replay').focus()
     }
@@ -268,25 +256,6 @@ const MODE_NORMAL = 1, MODE_ENDLESS = 2, MODE_PRACTICE = 3;
             showGameScoreLayer(cps);
             foucusOnReplay();
         }, 1500);
-    }
-
-
-    function encrypt(text) {
-        let encrypt = new JSEncrypt();
-        encrypt.setPublicKey("MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDTzGwX6FVKc7rDiyF3H+jKpBlRCV4jOiJ4JR33qZPVXx8ahW6brdBF9H1vdHBAyO6AeYBumKIyunXP9xzvs1qJdRNhNoVwHCwGDu7TA+U4M7G9FArDG0Y6k4LbS0Ks9zeRBMiWkW53yQlPshhtOxXCuZZOMLqk1vEvTCODYYqX5QIDAQAB");
-        return encrypt.encrypt(text);
-    }
-
-    function SubmitResults() {
-        if ($("#username").val() && _gameSettingNum === 20) {
-            let httpRequest = new XMLHttpRequest();
-            httpRequest.open('POST', './SubmitResults.php', true);
-            httpRequest.setRequestHeader("Content-type", "application/json");
-            let name = $("#username").val();
-            let message = $("#message").val();
-            let test = "|_|";
-            httpRequest.send(encrypt(_gameScore + test + name + test + tj + test + message));
-        }
     }
 
     function createTimeText(n) {
@@ -420,7 +389,6 @@ const MODE_NORMAL = 1, MODE_ENDLESS = 2, MODE_PRACTICE = 3;
     }
 
     function getBestScore(score) {
-        // 练习模式不会进入算分界面
         let cookieName = (mode === MODE_NORMAL ? 'bast-score' : 'endless-best-score');
         let best = cookie(cookieName) ? Math.max(parseFloat(cookie(cookieName)), score) : score;
         cookie(cookieName, best.toFixed(2), 100);
@@ -475,7 +443,6 @@ const MODE_NORMAL = 1, MODE_ENDLESS = 2, MODE_PRACTICE = 3;
             if (!legalDeviationTime()) {
                 return I18N['time-over'] + ((deviationTime / 1000) - _gameSettingNum).toFixed(2) + 's';
             }
-            SubmitResults();
         }
 
         if (cps <= 5) return I18N['text-level-1'];
